@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="canonical" href="https://amos-mig.github.io/micro-saas-metrics-dashboard-demo/">
+<meta property="og:url" content="https://amos-mig.github.io/micro-saas-metrics-dashboard-demo/">
+<title>Micro SaaS Metrics Dashboard — Live Demo</title>
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#0b0d12;color:#e8eaf0;font:15px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.banner{background:#10b981;color:#04231a;text-align:center;padding:8px 14px;font-size:13px;font-weight:700}
+header,main,section,footer{max-width:1020px;margin:0 auto;padding:0 18px}
+header{padding-top:34px}
+h1{font-size:clamp(26px,5vw,40px);letter-spacing:-.02em}
+.a{color:#10b981}
+.sub{color:#9aa3b2;margin-top:8px;max-width:660px}
+main{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.panel{background:#14171f;border:1px solid #262b36;border-radius:10px;padding:18px}
+h2{font-size:14px;color:#10b981;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.note{font-size:12.5px;color:#9aa3b2;margin-bottom:12px}
+.row{display:grid;grid-template-columns:auto 1fr;gap:0 8px;padding:7px 10px;border:1px solid #262b36;border-radius:7px;margin-bottom:6px;cursor:pointer;transition:.15s}
+.row:hover{border-color:#10b981}
+.row.on{border-color:#10b981;background:rgba(16,185,129,.06)}
+.row input{accent-color:#10b981;align-self:center}
+.row em{grid-column:2;font-style:normal;font-size:12px;color:#9aa3b2;display:none}
+.row.on em{display:block}
+.score{display:flex;align-items:baseline;gap:12px;margin:14px 0 6px;flex-wrap:wrap}
+#score{font-size:30px;font-weight:700;color:#10b981}
+#grade{font-size:13px;color:#9aa3b2}
+.bar{height:8px;background:#262b36;border-radius:4px;overflow:hidden;margin-bottom:14px}
+#fill{height:100%;width:0;background:#10b981;transition:width .3s}
+.gap{border-left:2px solid #10b981;padding:4px 0 4px 10px;margin-bottom:8px;font-size:12.5px;color:#9aa3b2}
+.gap b{color:#e8eaf0;display:block}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0 12px}
+th{text-align:left;color:#9aa3b2;text-transform:uppercase;font-size:11px;letter-spacing:.06em;padding:4px 8px}
+td{padding:6px 8px;border-top:1px solid #262b36}
+td:first-child{color:#10b981;white-space:nowrap}
+.lrow{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border:1px dashed #262b36;border-radius:7px;margin-top:8px;color:#9aa3b2;cursor:pointer;font-size:13px;transition:.15s}
+.lrow:hover{border-color:#10b981;color:#e8eaf0}
+#features{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}
+.card{background:#14171f;border:1px solid #262b36;border-radius:10px;padding:16px;font-size:13px;color:#9aa3b2}
+.card h3{font-size:13.5px;color:#e8eaf0;margin-bottom:6px}
+.card.lock{border-style:dashed}
+.card.lock h3{color:#9aa3b2}
+#buy{margin-top:16px}
+pre{background:#0b0d12;border:1px solid #262b36;border-radius:8px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.6;margin-bottom:16px}
+.cm{color:#9aa3b2}
+#cta{display:inline-block;background:#10b981;color:#04231a;padding:12px 22px;border-radius:8px;font-weight:700;text-decoration:none;font-size:15px}
+#cta:hover{filter:brightness(1.1)}
+@keyframes fl{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}50%{box-shadow:0 0 0 8px rgba(16,185,129,.35)}}
+#cta.flash{animation:fl .9s ease}
+footer{margin-top:36px;padding-top:16px;border-top:1px solid #262b36;color:#9aa3b2;font-size:13px;display:flex;flex-wrap:wrap;gap:8px 18px;padding-bottom:40px}
+footer a{color:#10b981;text-decoration:none}
+@media(max-width:860px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="banner">Live demo — only §1 of the Blueprint is readable &amp; the checkup shows partial results. The full product does more ↓</div>
+<header>
+<h1>Micro SaaS <span class="a">Metrics</span> Dashboard</h1>
+<p class="sub">A field-tested markdown Blueprint that compresses weeks of trial &amp; error into one document — follow the checklists, adapt the templates, move straight to execution.</p>
+</header>
+<main>
+<section class="panel">
+<h2>Metrics health checkup</h2>
+<p class="note">Tick every metric you track today. Your coverage score updates live.</p>
+<div id="grid"></div>
+<div class="score"><span id="score">0 / 10</span><span id="grade"></span></div>
+<div class="bar"><div id="fill"></div></div>
+<div id="gaps"></div>
+</section>
+<section class="panel">
+<h2>Blueprint preview</h2>
+<p class="note">§1 is fully readable below. The remaining four sections are in the paid Blueprint.</p>
+<p style="font-size:13.5px"><b style="color:#10b981">§1 — The 12 Metrics That Matter.</b> Your dashboard only needs these twelve numbers. Anything else is noise that delays decisions.</p>
+<table>
+<tr><th>Metric</th><th>Formula</th><th>Healthy</th></tr>
+<tr><td>MRR</td><td>Σ active subs × price</td><td>↑ ≥5%/mo</td></tr>
+<tr><td>Logo churn</td><td>lost customers ÷ total</td><td>&lt; 3%/mo</td></tr>
+<tr><td>LTV : CAC</td><td>(ARPU × margin) ÷ CAC</td><td>≥ 3:1</td></tr>
+<tr><td>Activation</td><td>signups reaching value ÷ signups</td><td>&gt; 40%</td></tr>
+</table>
+<p class="note">…§1 continues with metrics 5–12 &amp; instrumentation notes.</p>
+<div class="lrow"><span>§2 — Instrumentation checklist: where each metric is captured</span><span>🔒</span></div>
+<div class="lrow"><span>§3 — Dashboard spec: fill-in templates (markdown &amp; Notion)</span><span>🔒</span></div>
+<div class="lrow"><span>§4 — Weekly review ritual: the 15-minute scoring session</span><span>🔒</span></div>
+<div class="lrow"><span>§5 — Benchmarks by stage: pre-revenue → $10k MRR</span><span>🔒</span></div>
+</section>
+</main>
+<section id="features">
+<div class="card"><h3>Step-by-step structure</h3>Know exactly what to do next — five sections walk you from raw numbers to a working dashboard.</div>
+<div class="card"><h3>Checklists &amp; tables</h3>Fill-in checklists and metric tables you can fill in and reuse for every product you ship.</div>
+<div class="card"><h3>From real practice</h3>Written from operating a micro SaaS, not from theory. Field-tested, no fluff.</div>
+<div class="card lock"><h3>🔒 Pre-filled benchmarks</h3>Healthy ranges per metric, per stage — in the full Blueprint.</div>
+<div class="card lock"><h3>🔒 Notion dashboard template</h3>Copy-paste dashboard spec + weekly review script — in the full Blueprint.</div>
+</section>
+<section class="panel" id="buy">
+<h2>What the Blueprint looks like</h2>
+<pre>## §1 The 12 Metrics That Matter
+
+| # | Metric  | Formula                | Healthy  |
+|---|---------|------------------------|----------|
+| 1 | MRR     | Σ active subs × price  | ↑ 5%/mo  |
+| 2 | Churn   | lost MRR ÷ start MRR   | &lt; 3%/mo  |
+
+&gt; Rule: if a number isn't on this dashboard,
+&gt; no decision waits on it.
+
+<span class="cm">&lt;!-- §1 continues with metrics 3–12 …
+     §2–§5 live in the full Blueprint --&gt;</span></pre>
+<a id="cta" href="https://amosmign.gumroad.com/l/micro-saas-metrics-dashboard">Get the full Blueprint · $7</a>
+</section>
+<footer>
+<b>Micro SaaS Metrics Dashboard</b>
+<a href="https://kits.amosmignery.dev">kits.amosmignery.dev</a>
+<a href="https://github.com/Amos-Mig/micro-saas-metrics-dashboard-demo">GitHub</a>
+<a href="https://amosmign.gumroad.com/l/micro-saas-metrics-dashboard">Get the Blueprint</a>
+</footer>
+<script>
+const M=[["MRR / ARR","Without weekly MRR you're guessing whether the business actually grows."],["Churn rate","Churn silently caps growth — 7%/mo churn eats every acquisition win."],["ARPU","ARPU tells you whether to add seats or raise prices."],["CAC","If you can't name your CAC, you can't buy growth profitably."],["LTV","LTV sets the ceiling on what you can spend to acquire a customer."],["LTV : CAC ratio","Below 3:1 you're paying to lose money on every signup."],["Activation rate","Users who never reach first value always churn."],["Trial → paid conversion","The one number that decides whether trials are worth running."],["Net revenue retention","NRR above 100% means you grow with zero new signups."],["Runway / burn","Runway dictates every deadline you're allowed to set."]];
+const g=document.getElementById("grid");
+M.forEach(([n,w])=>{const l=document.createElement("label");l.className="row";l.innerHTML='<input type="checkbox"><span>'+n+'</span><em>'+w+'</em>';g.appendChild(l);});
+const G=[["Flying blind","open §1 below — start with MRR + churn"],["Early signal","§2 shows where to capture the rest 🔒"],["Partial visibility","§3's fill-in dashboard closes the gaps 🔒"],["Solid instrument panel","§4's weekly ritual keeps it sharp 🔒"],["Sharp operator","§5 benchmarks confirm your ranges 🔒"],["Full coverage — rare","§4 keeps it that way, weekly 🔒"]];
+function upd(){const cs=[...g.querySelectorAll("input")];const s=cs.filter(c=>c.checked).length;
+g.querySelectorAll(".row").forEach((r,i)=>r.classList.toggle("on",cs[i].checked));
+document.getElementById("score").textContent=s+" / 10";
+document.getElementById("fill").style.width=(s*10)+"%";
+document.getElementById("grade").textContent=G[Math.min(5,Math.floor(s/2))].join(" — ");
+const miss=cs.map((c,i)=>i).filter(i=>!cs[i].checked);
+const el=document.getElementById("gaps");
+if(!miss.length){el.innerHTML='<div class="gap"><b>All 10 core metrics tracked.</b>The 15-minute weekly review ritual in §4 keeps it that way — in the full Blueprint 🔒</div>';return;}
+let h=miss.slice(0,2).map(i=>'<div class="gap"><b>Gap: '+M[i][0]+'</b>'+M[i][1]+'</div>').join("");
+if(miss.length>2)h+='<div class="gap"><b>… +'+(miss.length-2)+' more gaps</b>Full gap-closure plan &amp; fill-in tracker in the Blueprint 🔒</div>';
+el.innerHTML=h;}
+g.addEventListener("change",upd);upd();
+document.querySelectorAll(".lrow").forEach(r=>r.onclick=()=>{const c=document.getElementById("cta");c.classList.remove("flash");void c.offsetWidth;c.classList.add("flash");c.scrollIntoView({behavior:"smooth",block:"center"});});
+</script>
+</body>
+</html>
